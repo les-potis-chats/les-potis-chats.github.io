@@ -120,7 +120,7 @@ export function Scene() {
       {/* <Track /> */}
       <Car />
 
-      <Cat position={[0, 0.7, 0]} scale={0.3} />
+      <Cat position={[0, 0.7, 0]} rotation-y={Math.PI / 2} scale={0.3} />
 
       {/* cat */}
 
