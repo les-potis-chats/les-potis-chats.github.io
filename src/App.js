@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
-import { OrbitControls } from '@react-three/drei'
+import { Physics } from "@react-three/cannon";
+import { Scene } from "./Scene";
 
 function Box(props) {
   // This reference gives us direct access to the THREE.Mesh object
@@ -39,15 +40,20 @@ export default function App() {
   // }, [])
 
   return <>
-    {true && <div className='menu'><button onClick={() => {setPause(!pause)}}>Play</button></div>}
+    {/* {true && <div className='menu'><button onClick={() => {setPause(!pause)}}>Play</button></div>}s */}
     <Canvas>
       {pause && <DisableRender /> }
-      <ambientLight intensity={0.5} />
+      {/* <ambientLight intensity={0.5} />
       <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
       <pointLight position={[-10, -10, -10]} />
       <Box position={[-1.2, 0, 0]} />
-      <Box position={[1.2, 0, 0]} />
-      <OrbitControls />
+      <Box position={[1.2, 0, 0]} /> */}
+      <Physics
+        broadphase="SAP"
+        gravity={[0, -2.6, 0]}
+      >
+        <Scene />
+      </Physics>
     </Canvas>
     {pause && <h1>Pause</h1> }
   </>
