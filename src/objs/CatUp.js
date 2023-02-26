@@ -7,28 +7,23 @@ import React, { useEffect, useRef } from 'react'
 import { useGLTF, useAnimations } from '@react-three/drei'
 import { AnimationMixer, LoopOnce } from 'three';
 
-const Cat = React.forwardRef((props, ref) => {
+const CatUp = React.forwardRef((props, ref) => {
 
   let mixer = null;
-  const { nodes, materials, animations } = useGLTF('/models/cat.glb')
+  const { nodes, materials, animations } = useGLTF('/models/catUp.glb')
   const { actions } = useAnimations(animations, ref)
 
-  // mixer = new AnimationMixer(nodes);
-  // void mixer.clipAction(animations[0]).play();
-  // useFrame((state, delta) => {
-  //   mixer.update(delta);
-  //   // console.log(ca);
-  // });
+  // useEffect(() => {
+  //   actions.ArmatureAction.setLoop(LoopOnce);
 
-  useEffect(() => {
-    actions.ArmatureAction.setLoop(LoopOnce);
-
-    setTimeout(() => {actions.ArmatureAction.play()}, 3000)
+  //   setTimeout(() => {actions.ArmatureAction.play()}, 3000)
     
-    console.log(actions.ArmatureAction);
-  }, [])
+  //   console.log(actions.ArmatureAction);
+  // }, [])
 
-  return (
+  return <>
+
+    {/* UP */}
     <group ref={ref} {...props} dispose={null}>
       <group name="Scene">
         <group name="Armature">
@@ -46,9 +41,9 @@ const Cat = React.forwardRef((props, ref) => {
         </group>
       </group>
     </group>
-  )
+  </>
 });
 
-export default Cat;
+export default CatUp;
 
-useGLTF.preload('/models/cat.glb')
+useGLTF.preload('/models/catUp.glb')

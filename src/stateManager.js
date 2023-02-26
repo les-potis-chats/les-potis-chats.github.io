@@ -7,8 +7,8 @@ export class StateManager {
   static deltaPosition = {x: 0, y: 0, z: 0};
 
   static setCarPosition(position) {
-    this.deltaPosition.x = this.carPosition.x - position.x;
-    this.deltaPosition.z = this.carPosition.z - position.z;
+    this.deltaPosition.x = Math.abs(this.carPosition.x - position.x);
+    this.deltaPosition.z = Math.abs(this.carPosition.z - position.z);
     this.carPosition = position;
   }
   

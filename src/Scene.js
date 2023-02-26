@@ -8,7 +8,8 @@ import {
 } from "@react-three/drei";
 import { Suspense, useEffect, useRef, useState, useMemo } from "react";
 import { Car } from "./mouse/Car";
-import Cat from "./objs/Cat";
+import CatUp from "./objs/CatUp";
+import CatDown from "./objs/CatDown";
 import { Objs } from "./objs/Objs";
 import { Ground } from "./map/Ground";
 import { Bounds } from "./map/Bounds";
@@ -38,6 +39,8 @@ export function Scene() {
   const [objs, setObjs] = useImmer([]);
   const [timer, setTimer] = useImmer(-1);
   const [text, setText] = useImmer('Jouer !');
+
+  const [catDown, setCatDown] = useImmer(true);
 
   const [catR, setCatR] = useImmer(Math.PI / 2);
   const [catFollow, setCatFollow] = useImmer(false);
@@ -97,8 +100,11 @@ export function Scene() {
   function WatchCat() {
 
     //anim cat
+    setCatDown(false);
 
     let trigger = false;
+
+    console.log(StateManager.deltaPosition.x, StateManager.deltaPosition.z);
 
     if(StateManager.deltaPosition.x > 0.005 || StateManager.deltaPosition.z > 0.005) {
       trigger = true;
@@ -106,6 +112,7 @@ export function Scene() {
 
     if(!trigger) {
       setTimeout(() =>  {
+        setCatDown(true);
         StateManager.gameMode = 'play';
         setText('');
         launchCat();
@@ -137,12 +144,16 @@ export function Scene() {
   }
 
   function playLevel() {
-    objsManager.generateLevel();
+    objsManager.generateLevel(StateManager.level);
     objsManager.triggerCallback();
     setText('Niveau ' + StateManager.level);
     StateManager.gameMode = 'play';
     setTimeout(() => setText(''), 2000);
-    StateManager.level = StateManager.level + 1;
+    if(StateManager.level === 17) {
+      StateManager.level = 1;
+    }else {
+      StateManager.level = StateManager.level + 1;
+    }
     launchCat();
     setCatFollow(false);
   }
@@ -194,7 +205,8 @@ export function Scene() {
 
 
       {/* cat */}
-      <Cat ref={catRef} position={[0, 0.7, 0]} rotation-y={catR} scale={0.3} />
+      <CatUp visible={!catDown} position={[0, 0.7, 0]} rotation-y={catR} scale={0.3} />
+      <CatDown visible={catDown} ref={catRef} position={[0, 0.7, 0]} rotation-y={catR} scale={0.3} />
 
       {/* <Cheese castShadow receiveShadow position={[0, 0, 5]} />
       <Portal castShadow receiveShadow position={[0, 0, 5]} /> */}
