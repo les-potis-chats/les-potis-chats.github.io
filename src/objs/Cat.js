@@ -6,14 +6,12 @@ Command: npx gltfjsx@6.1.4 cat.glb
 import React, { useEffect, useRef } from 'react'
 import { useGLTF, useAnimations } from '@react-three/drei'
 import { AnimationMixer, LoopOnce } from 'three';
-import { useFrame } from '@react-three/fiber';
 
-export function Cat(props) {
+const Cat = React.forwardRef((props, ref) => {
 
   let mixer = null;
-  const group = useRef()
   const { nodes, materials, animations } = useGLTF('/models/cat.glb')
-  const { actions } = useAnimations(animations, group)
+  const { actions } = useAnimations(animations, ref)
 
   // mixer = new AnimationMixer(nodes);
   // void mixer.clipAction(animations[0]).play();
@@ -31,7 +29,7 @@ export function Cat(props) {
   }, [])
 
   return (
-    <group ref={group} {...props} dispose={null}>
+    <group ref={ref} {...props} dispose={null}>
       <group name="Scene">
         <group name="Armature">
           <primitive object={nodes.Bone} />
@@ -49,6 +47,8 @@ export function Cat(props) {
       </group>
     </group>
   )
-}
+});
+
+export default Cat;
 
 useGLTF.preload('/models/cat.glb')
