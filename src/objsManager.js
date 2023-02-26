@@ -1,5 +1,3 @@
-import { LevelsGenerator } from "./LevelsGenerator";
-
 export class objsManager {
 
   static objs = [
@@ -62,27 +60,57 @@ export class objsManager {
     // min: 1
     // max: 5.5
 
+    const nbFood = 10;
+    const nbBlock = 5;
+
+    let index = 0;
     let level = [];
 
-    for (let i = 0; i < 10; i++) {
-      let pos = LevelsGenerator.randomInCircle();
+    for (let i = 0; i < nbFood; i++) {
+      let pos = this.randomInCircle();
       level.push({
-        id: i,
-        type : 'food',
+        id: index,
+        type: 'food',
         position: [pos.x, 0, pos.y],
       });
+      index++;
     }
 
     for (let i = 0; i < 2; i++) {
-      let pos = LevelsGenerator.randomInCircle();
+      let pos = this.randomInCircle();
       level.push({
-        id: i + 10,
-        type : 'portal',
+        id: index,
+        type: 'portal',
         position: [pos.x, 0, pos.y],
       });
+      index++;
     }
 
+    for (let i = 0; i < nbBlock; i++) {
+      let pos = this.randomInCircle();
+      level.push({
+        id: index,
+        type: 'block',
+        blockId: Math.floor(Math.random() * 9),
+        position: [pos.x, 0, pos.y],
+      });
+      index++;
+    }
+
+    console.log(level);
+
     this.objs = level; 
+  }
+
+  static randomInCircle() {
+    let angle = Math.random() * 2 * Math.PI;
+    let rad = (Math.floor(Math.random() * 35) + 20) / 10;
+    return {x: Math.cos(angle) * rad, y: Math.sin(angle) * rad}
+  }
+
+  static randomBall() {
+    let position = this.randomInCircle();
+    return [position.x, 2, position.y];
   }
 
 }

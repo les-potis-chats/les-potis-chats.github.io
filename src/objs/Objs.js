@@ -21,9 +21,7 @@ export function Objs(props) {
   const [border, setBorder] = useImmer([]);
 
   useEffect(() => {
-
     let pos = [];
-
     for (let i = 0; i < 2 * Math.PI; i += Math.PI / 30) {
       const angle = i;
       let rand = Math.random();
@@ -38,12 +36,11 @@ export function Objs(props) {
         })
       }      
     }
-
     setBorder(pos);
-  }, [])
+  }, []);
 
   return <>
-    <Rock1 position={[-1.5, 0.0, 1.5]} />
+    {/* <Rock1 position={[-1.5, 0.0, 1.5]} />
     <Rock2 position={[1.5, 0.0, 1.5]} />
     <Pot1 position={[3, 0.0, 1.5]} />
     <Pot2 position={[3, 0.0, 3]} />
@@ -52,7 +49,7 @@ export function Objs(props) {
     <Ball position={[2, 0.0, -2]} />
     <Rake position={[2, 0.0, 0.0]} />
     <StickLong position={[-2,0,-2]} />
-    <StickShort position={[-3,0,3]} />
+    <StickShort position={[-3,0,3]} /> */}
 
 
 

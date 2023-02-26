@@ -1,4 +1,4 @@
-import { ColliderBox } from "./ColliderBox";
+import { ColliderBox } from "../objs/ColliderBox";
 import { useEffect } from "react";
 import { useImmer } from "use-immer";
 
@@ -12,7 +12,7 @@ export function Bounds() {
 
     for (let i = 0; i < 2 * Math.PI; i += Math.PI / 16) {
       const angle = i;
-      let radius =  6;
+      let radius =  6.5;
       let opposite = Math.cos(angle) * radius;
       let adjacent = Math.sin(angle) * radius;
       pos.push({

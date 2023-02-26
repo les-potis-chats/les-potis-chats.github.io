@@ -11,6 +11,7 @@ import { Car } from "./mouse/Car";
 import Cat from "./objs/Cat";
 import { Objs } from "./objs/Objs";
 import { Ground } from "./map/Ground";
+import { Bounds } from "./map/Bounds";
 import { Stats } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { objsManager } from "./objsManager";
@@ -19,6 +20,16 @@ import { StateManager } from "./stateManager";
 import { Cylinder } from "./map/Cylinder";
 import { Cheese } from "./objs/Cheese";
 import { Portal } from "./objs/Portal";
+import { Ball } from "./objs/Ball";
+import { Rake } from "./objs/Rake";
+import { StickLong } from "./objs/StickLong";
+import { StickShort } from "./objs/StickShort";
+import { Rock1 } from "./objs/Rock1";
+import { Rock2 } from "./objs/Rock2";
+import { Pot1 } from "./objs/Pot1";
+import { Pot2 } from "./objs/Pot2";
+import { Pot3 } from "./objs/Pot3";
+import { Pot4 } from "./objs/Pot4";
 
 export function Scene() {
 
@@ -69,7 +80,7 @@ export function Scene() {
   }
 
   function launchCat() {
-    let rand = (Math.floor(Math.random() * 20) + 10); // 10 - 30
+    let rand = (Math.floor(Math.random() * 10) + 5); // 5 - 15
     if(timer - rand < 0) {
       setTimeout(() => triggerCat(), rand * 1000);
     }
@@ -173,6 +184,8 @@ export function Scene() {
         background={"both"}
       />
 
+      <Bounds />
+
       <Ground />
       {/* <Track /> */}
       <Car />
@@ -188,16 +201,26 @@ export function Scene() {
 
       {/* Cheese */}
       {objs.map((obj, index) =>
-        // <mesh castShadow receiveShadow key={index} position={obj.position}>
-        //   <boxGeometry args={obj.args} />
-        //   <meshStandardMaterial color={obj.color} />
-        // </mesh>
         <mesh key={index}>
           {(obj.type === 'food') && <Cheese castShadow receiveShadow position={obj.position} /> }
+
           {(obj.type === 'portal') && <Portal castShadow receiveShadow position={obj.position} /> }
+
+          {(obj.type === 'block' && obj.blockId === 0) && <Rock1 position={obj.position} /> }
+          {(obj.type === 'block' && obj.blockId === 1) && <Rock2 position={obj.position} /> }
+          {(obj.type === 'block' && obj.blockId === 2) && <Pot1 position={obj.position} /> }
+          {(obj.type === 'block' && obj.blockId === 3) && <Pot2 position={obj.position} /> }
+          {(obj.type === 'block' && obj.blockId === 4) && <Pot3 position={obj.position} /> }
+          {(obj.type === 'block' && obj.blockId === 5) && <Pot4 position={obj.position} /> }
+          {(obj.type === 'block' && obj.blockId === 6) && <Rake position={obj.position} /> }
+          {(obj.type === 'block' && obj.blockId === 7) && <StickLong position={obj.position} /> }
+          {(obj.type === 'block' && obj.blockId === 8) && <StickShort position={obj.position} /> }
+
         </mesh>
       )}
       <Cylinder />
+
+      <Ball position={objsManager.randomBall()} />
 
       {(timer > -1) && <>
         <Text color={timer > 5 ? 'black' : 'red'} rotation-y={Math.PI / 4} position={[0.52, 0.25, 0.52]} anchorX="center" anchorY="middle" {...fontProps}>{timer}</Text>
