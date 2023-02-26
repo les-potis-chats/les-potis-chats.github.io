@@ -156,6 +156,7 @@ export function Scene() {
     }
     launchCat();
     setCatFollow(false);
+    setCatDown(true);
   }
 
   useFrame((state, delta) => {
