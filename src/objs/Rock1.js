@@ -17,7 +17,7 @@ export function Rock1(props) {
     () => ({
       args,
       mass: 10000,
-      position: [props.position[0] + move[0], props.position[1] + move[1], props.position[2] + move[2]]
+      position: [props.position[0] + move[0], props.position[1] + move[1] + 0.5, props.position[2] + move[2]]
     }),
     useRef(null),
   )

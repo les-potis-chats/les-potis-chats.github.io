@@ -16,7 +16,7 @@ export function Pot4(props) {
     () => ({
       args,
       mass: 10000,
-      position: props.position,
+      position: [props.position[0], 0.5, props.position[2]],
     }),
     useRef(null),
   )
