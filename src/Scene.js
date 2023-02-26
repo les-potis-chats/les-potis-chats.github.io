@@ -89,7 +89,6 @@ export function Scene() {
   function triggerCat() {
     setText('!');
     setTimeout(() =>  {
-      setText('');
       StateManager.gameMode = 'pause';
       WatchCat();
     }, 2000)
@@ -108,6 +107,7 @@ export function Scene() {
     if(!trigger) {
       setTimeout(() =>  {
         StateManager.gameMode = 'play';
+        setText('');
         launchCat();
       }, 2000)
     }else {

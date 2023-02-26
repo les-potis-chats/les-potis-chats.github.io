@@ -72,10 +72,12 @@ export function Car() {
         if(portal.length) {
           chassisApi.position.set(portal[0].position[0], 0.1, portal[0].position[2]);
         }
+        objsManager.remove(hitobj.id);
       }
 
-      objsManager.remove(hitobj.id);
-
+      if(hitobj.type === 'food') { // type food
+        objsManager.remove(hitobj.id);
+      }
     }
 
     // console.log(objsManager.objs);
