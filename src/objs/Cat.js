@@ -5,14 +5,29 @@ Command: npx gltfjsx@6.1.4 cat.glb
 
 import React, { useEffect, useRef } from 'react'
 import { useGLTF, useAnimations } from '@react-three/drei'
+import { AnimationMixer, LoopOnce } from 'three';
+import { useFrame } from '@react-three/fiber';
 
 export function Cat(props) {
+
+  let mixer = null;
   const group = useRef()
   const { nodes, materials, animations } = useGLTF('/models/cat.glb')
   const { actions } = useAnimations(animations, group)
 
+  // mixer = new AnimationMixer(nodes);
+  // void mixer.clipAction(animations[0]).play();
+  // useFrame((state, delta) => {
+  //   mixer.update(delta);
+  //   // console.log(ca);
+  // });
+
   useEffect(() => {
-    console.log(actions);
+    actions.ArmatureAction.setLoop(LoopOnce);
+
+    setTimeout(() => {actions.ArmatureAction.play()}, 3000)
+    
+    console.log(actions.ArmatureAction);
   }, [])
 
   return (

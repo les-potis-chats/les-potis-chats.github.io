@@ -16,7 +16,7 @@ export function Car() {
     process.env.PUBLIC_URL + "/models/car.glb"
   ).scene;
 
-  const position = [0, 0.1, 0];
+  const position = [2, 0.1, 2];
   const width = 0.15;
   const height = 0.07;
   const front = 0.15;

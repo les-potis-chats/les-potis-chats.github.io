@@ -23,37 +23,68 @@ export const useControls = (vehicleApi, chassisApi) => {
   useEffect(() => {
     if(!vehicleApi || !chassisApi) return;
 
-    if (controls.z) {
+    if (controls.z || controls.arrowup) {
       vehicleApi.applyEngineForce(150, 2);
       vehicleApi.applyEngineForce(150, 3);
-    } else if (controls.s) {
+
+      //
+      for(let i = 2; i < 4; i++) {
+        vehicleApi.setBrake(0, i);
+      }
+      chassisApi.mass.set(150);
+
+    } else if (controls.s || controls.arrowdown) {
       vehicleApi.applyEngineForce(-150, 2);
       vehicleApi.applyEngineForce(-150, 3);
+
+      //
+      for(let i = 2; i < 4; i++) {
+        vehicleApi.setBrake(0, i);
+      }
+      chassisApi.mass.set(150);
+
     } else {
       vehicleApi.applyEngineForce(0, 2);
       vehicleApi.applyEngineForce(0, 3);
+
+      //
+      for(let i = 2; i < 4; i++) {
+        vehicleApi.setBrake(2.5, i);
+      }
+      chassisApi.mass.set(150);
+
     }
 
-    if (controls.q) {
+    if (controls.q || controls.arrowleft) {
       vehicleApi.setSteeringValue(0.35, 2);
       vehicleApi.setSteeringValue(0.35, 3);
       vehicleApi.setSteeringValue(-0.1, 0);
       vehicleApi.setSteeringValue(-0.1, 1);
-    } else if (controls.d) {
+
+      //
+      for(let i = 2; i < 4; i++) {
+        vehicleApi.setBrake(0, i);
+      }
+      chassisApi.mass.set(150);
+
+
+    } else if (controls.d || controls.arrowright) {
       vehicleApi.setSteeringValue(-0.35, 2);
       vehicleApi.setSteeringValue(-0.35, 3);
       vehicleApi.setSteeringValue(0.1, 0);
       vehicleApi.setSteeringValue(0.1, 1);
+
+      //
+      for(let i = 2; i < 4; i++) {
+        vehicleApi.setBrake(0, i);
+      }
+      chassisApi.mass.set(150);
+      
     } else {
       for(let i = 0; i < 4; i++) {
         vehicleApi.setSteeringValue(0, i);
       }
     }
-
-    if (controls.arrowdown)  chassisApi.applyLocalImpulse([0, -5, 0], [0, 0, +1]);
-    if (controls.arrowup)    chassisApi.applyLocalImpulse([0, -5, 0], [0, 0, -1]);
-    if (controls.arrowleft)  chassisApi.applyLocalImpulse([0, -5, 0], [-0.5, 0, 0]);
-    if (controls.arrowright) chassisApi.applyLocalImpulse([0, -5, 0], [+0.5, 0, 0]);
 
     if (controls.r) {
       chassisApi.position.set(0, 0.1, 0);

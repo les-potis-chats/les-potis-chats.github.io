@@ -2,7 +2,7 @@ import { useLoader } from "@react-three/fiber";
 import { useEffect } from "react";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { TextureLoader } from "three/src/loaders/TextureLoader";
-import { ColliderBox } from "./ColliderBox";
+import { ColliderBox } from "../objs/ColliderBox";
 import { Ramp } from "./Ramp";
 
 export function Track() {

@@ -9,12 +9,14 @@ import {
 import { Suspense, useEffect, useRef, useState, useMemo } from "react";
 import { Car } from "./mouse/Car";
 import { Cat } from "./objs/Cat";
+import { Objs } from "./objs/Objs";
 import { Ground } from "./map/Ground";
 import { Stats } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { objsManager } from "./objsManager";
 import { useImmer } from "use-immer";
 import { StateManager } from "./stateManager";
+import { Cylinder } from "./map/Cylinder";
 
 export function Scene() {
 
@@ -99,13 +101,12 @@ export function Scene() {
       state.camera.position.y = 1.45;
     }
 
-    console.log(state.camera.position);
-
   })
 
   return (
     <Suspense fallback={null}>
-      <OrbitControls position={[-2.34, 3.15, -4.07]} enablePan={false} />
+      {/* <OrbitControls position={[-2.34, 3.15, -4.07]} enablePan={false} /> */}
+      <OrbitControls position={[-2.34, 3.15, -4.07]} />
       {/* <PerspectiveCamera makeDefault position={cameraPosition} fov={40} /> */}
       <Stats />
       {/* <axesHelper args={[0.5]} position={[0, 0.5, 0]} /> */}
@@ -120,6 +121,8 @@ export function Scene() {
       {/* <Track /> */}
       <Car />
 
+      <Objs />
+
       <Cat position={[0, 0.7, 0]} rotation-y={Math.PI / 2} scale={0.3} />
 
       {/* cat */}
@@ -130,10 +133,8 @@ export function Scene() {
           <meshStandardMaterial color={obj.color} />
         </mesh>
       )}
-      <mesh castShadow receiveShadow position={[0, 0.25, 0]}>
-        <cylinderGeometry args={[1, 1, 0.5, 4]} />
-        <meshStandardMaterial color={'orange'} />
-      </mesh>
+
+      <Cylinder />
 
       {(timer > -1) && <>
         <Text color={timer > 5 ? 'black' : 'red'} rotation-y={Math.PI / 4} position={[0.52, 0.25, 0.52]} anchorX="center" anchorY="middle" {...fontProps}>{timer}</Text>
