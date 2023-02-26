@@ -87,9 +87,9 @@ export const useControls = (vehicleApi, chassisApi) => {
     }
 
     if (controls.r) {
-      chassisApi.position.set(0, 0.1, 0);
-      chassisApi.velocity.set(0, 0, 0);
-      chassisApi.angularVelocity.set(0, 0, 0);
+      //chassisApi.position.set(0, 0.1, 0);
+      // chassisApi.velocity.set(0, 0, 0);
+      // chassisApi.angularVelocity.set(0, 0, 0);
       chassisApi.rotation.set(0, 0, 0);
     }
   }, [controls, vehicleApi, chassisApi]);
