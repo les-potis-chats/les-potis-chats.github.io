@@ -68,10 +68,17 @@ export class objsManager {
       let pos = LevelsGenerator.randomInCircle();
       level.push({
         id: i,
-        color : 'orange',
         type : 'food',
-        position: [pos.x, 0.1, pos.y],
-        args: [0.2, 0.2, 0.2]
+        position: [pos.x, 0, pos.y],
+      });
+    }
+
+    for (let i = 0; i < 2; i++) {
+      let pos = LevelsGenerator.randomInCircle();
+      level.push({
+        id: i + 10,
+        type : 'portal',
+        position: [pos.x, 0, pos.y],
       });
     }
 

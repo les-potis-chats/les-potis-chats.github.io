@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { Quaternion, Vector3 } from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { objsManager } from "../objsManager";
+import { StateManager } from "../stateManager";
 import { useControls } from "../useControls";
 import { useWheels } from "./useWheels";
 import { WheelDebug } from "./WheelDebug";
@@ -13,7 +14,7 @@ export function Car() {
   // https://sketchfab.com/3d-models/low-poly-car-muscle-car-2-ac23acdb0bd54ab38ea72008f3312861
   let result = useLoader(
     GLTFLoader,
-    process.env.PUBLIC_URL + "/models/car.glb"
+    process.env.PUBLIC_URL + "/models/mouse.glb"
   ).scene;
 
   const position = [2, 0.1, 2];
@@ -51,6 +52,8 @@ export function Car() {
     let position = new Vector3(0,0,0);
     position.setFromMatrixPosition(chassisBody.current.matrixWorld);
 
+    StateManager.setCarPosition(position);
+
     let hitobj = false;
 
     for (let i = 0; i < objsManager.objs.length; i++) {
@@ -67,7 +70,7 @@ export function Car() {
           return e.type === 'portal' && e.id != hitobj.id;
         })
         if(portal.length) {
-          chassisApi.position.set(portal[0].position[0], portal[0].position[1], portal[0].position[2]);
+          chassisApi.position.set(portal[0].position[0], 0.1, portal[0].position[2]);
         }
       }
 
@@ -83,12 +86,12 @@ export function Car() {
     if (!result) return;
 
     let mesh = result;
-    mesh.scale.set(0.002, 0.002, 0.002);
+    mesh.scale.set(0.25, 0.25, 0.25);
 
-    mesh.children[0].position.set(-365, -18, -67);
+    // mesh.children[0].position.set(-365, -18, -67);
   }, [result]);
 
-  return (
+  return <>
     <group ref={vehicle} name="vehicle">
       <group ref={chassisBody} name="chassisBody">
         <primitive object={result} rotation-y={Math.PI} position={[0, -0.09, 0]}/>
@@ -104,5 +107,5 @@ export function Car() {
       <WheelDebug wheelRef={wheels[2]} radius={wheelRadius} />
       <WheelDebug wheelRef={wheels[3]} radius={wheelRadius} />
     </group>
-  );
+  </>
 }

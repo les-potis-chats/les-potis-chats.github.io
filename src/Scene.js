@@ -8,7 +8,7 @@ import {
 } from "@react-three/drei";
 import { Suspense, useEffect, useRef, useState, useMemo } from "react";
 import { Car } from "./mouse/Car";
-import { Cat } from "./objs/Cat";
+import Cat from "./objs/Cat";
 import { Objs } from "./objs/Objs";
 import { Ground } from "./map/Ground";
 import { Stats } from "@react-three/drei";
@@ -17,6 +17,8 @@ import { objsManager } from "./objsManager";
 import { useImmer } from "use-immer";
 import { StateManager } from "./stateManager";
 import { Cylinder } from "./map/Cylinder";
+import { Cheese } from "./objs/Cheese";
+import { Portal } from "./objs/Portal";
 
 export function Scene() {
 
@@ -26,12 +28,15 @@ export function Scene() {
   const [timer, setTimer] = useImmer(-1);
   const [text, setText] = useImmer('Jouer !');
 
+  const [catR, setCatR] = useImmer(Math.PI / 2);
+  const [catFollow, setCatFollow] = useImmer(false);
+
   const [gameMode, setGameMode] = useImmer('intro');
 
   const textRef = useRef();
+  const catRef = useRef();
 
   useEffect(() => {
-    objsManager.generateLevel();
     objsManager.addCallback(updateObjs);
     setObjs(objsManager.objs);
     setInterval(updateTimer, 1000);
@@ -63,6 +68,43 @@ export function Scene() {
     }
   }
 
+  function launchCat() {
+    let rand = (Math.floor(Math.random() * 20) + 10); // 10 - 30
+    if(timer - rand < 0) {
+      setTimeout(() => triggerCat(), rand * 1000);
+    }
+  }
+
+  function triggerCat() {
+    setText('!');
+    setTimeout(() =>  {
+      setText('');
+      StateManager.gameMode = 'pause';
+      WatchCat();
+    }, 2000)
+  }
+
+  function WatchCat() {
+
+    //anim cat
+
+    let trigger = false;
+
+    if(StateManager.deltaPosition.x > 0.005 || StateManager.deltaPosition.z > 0.005) {
+      trigger = true;
+    }
+
+    if(!trigger) {
+      setTimeout(() =>  {
+        StateManager.gameMode = 'play';
+        launchCat();
+      }, 2000)
+    }else {
+      setCatFollow(true);
+      gameover();
+    }
+  }
+
   function gameover() {
     StateManager.gameMode = 'gameover';
     setText('Game over ! Retry ?');
@@ -84,10 +126,14 @@ export function Scene() {
   }
 
   function playLevel() {
+    objsManager.generateLevel();
+    objsManager.triggerCallback();
     setText('Niveau ' + StateManager.level);
     StateManager.gameMode = 'play';
     setTimeout(() => setText(''), 2000);
     StateManager.level = StateManager.level + 1;
+    launchCat();
+    setCatFollow(false);
   }
 
   useFrame((state, delta) => {
@@ -100,6 +146,16 @@ export function Scene() {
     if(state.camera.position.y < 1.45) {
       state.camera.position.y = 1.45;
     }
+
+    if(catRef.current) {
+      if(catFollow) {
+        let angle = Math.atan(StateManager.carPosition.x / StateManager.carPosition.z);
+        angle += StateManager.carPosition.z > 0 ? Math.PI : 0;
+        catRef.current.rotation.y = angle
+      }else {
+        catRef.current.rotation.y = Math.PI / 2;
+      }
+    }    
 
   })
 
@@ -123,17 +179,24 @@ export function Scene() {
 
       <Objs />
 
-      <Cat position={[0, 0.7, 0]} rotation-y={Math.PI / 2} scale={0.3} />
 
       {/* cat */}
+      <Cat ref={catRef} position={[0, 0.7, 0]} rotation-y={catR} scale={0.3} />
 
+      {/* <Cheese castShadow receiveShadow position={[0, 0, 5]} />
+      <Portal castShadow receiveShadow position={[0, 0, 5]} /> */}
+
+      {/* Cheese */}
       {objs.map((obj, index) =>
-        <mesh castShadow receiveShadow key={index} position={obj.position}>
-          <boxGeometry args={obj.args} />
-          <meshStandardMaterial color={obj.color} />
+        // <mesh castShadow receiveShadow key={index} position={obj.position}>
+        //   <boxGeometry args={obj.args} />
+        //   <meshStandardMaterial color={obj.color} />
+        // </mesh>
+        <mesh key={index}>
+          {(obj.type === 'food') && <Cheese castShadow receiveShadow position={obj.position} /> }
+          {(obj.type === 'portal') && <Portal castShadow receiveShadow position={obj.position} /> }
         </mesh>
       )}
-
       <Cylinder />
 
       {(timer > -1) && <>
