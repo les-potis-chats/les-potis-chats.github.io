@@ -5,12 +5,23 @@ Command: npx gltfjsx@6.1.4 Rock2.glb
 
 import React, { useRef } from 'react'
 import { useGLTF } from '@react-three/drei'
-import { ColliderBox } from './ColliderBox'
+
+import { useCylinder } from "@react-three/cannon";
 
 export function Rock2(props) {
   const { nodes, materials } = useGLTF('/models/Rock2.glb')
+  const args = [.20, .20, 0.6, 20]
+
+  const [ref] = useCylinder(
+    () => ({
+      args,
+      mass: 10000,
+      position: props.position,
+    }),
+    useRef(null),
+  )
   return <>
-    <ColliderBox position={props.position} scale={[0.6, 0.9, 0.6]} dpos={[-0.15, 0, 0.11]} />
+    {/* <ColliderBox position={props.position} scale={[0.6, 0.9, 0.6]} dpos={[-0.15, 0, 0.11]} /> */}
     <group {...props} scale={0.2} dispose={null}>
       <mesh geometry={nodes.Icosphere.geometry} material={materials['Material.001']} position={[0, 0.55, 0]} scale={[1, 1.23, 1]} />
     </group>

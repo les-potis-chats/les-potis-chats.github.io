@@ -10,6 +10,10 @@ import { Tree3 } from "./Tree3";
 import { Tree4 } from "./Tree4";
 import { Tree5 } from "./Tree5";
 import { Tree6 } from "./Tree6";
+import { Ball } from "./Ball";
+import { Rake } from "./Rake";
+import { StickLong } from "./StickLong";
+import { StickShort } from "./StickShort";
 import { useEffect } from "react";
 import { useImmer } from "use-immer";
 
@@ -45,6 +49,10 @@ export function Objs(props) {
     <Pot2 position={[3, 0.0, 3]} />
     <Pot3 position={[3, 0.0, -1.5]} />
     <Pot4 position={[3, 0.0, -3]} />
+    <Ball position={[2, 0.0, -2]} />
+    <Rake position={[2, 0.0, 0.0]} />
+    <StickLong position={[-2,0,-2]} />
+    <StickShort position={[-3,0,3]} />
 
 
 
